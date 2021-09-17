@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "administratorLogin": {
+      "value": "admindb"
+    },
+    "administratorLoginPassword": {
+      "value": "AdminPLain01!"
+    },
+    "databaseName": {
+      "value": "de0a100armsecondsdb"
+    },
+    "hostingPlanName": {
+      "value": "de0a100armsecondsserviceplan"
+    },
+    "ServiceBusQueueNames": {
+      "value": [
+        "queuerepository",
+        "queuestorage"
+      ]
+    },
+    "storageAccountsname": {
+      "value": "0a100armsegundosstorage"
+    },
+    "functionNames": {
+      "value": [
+        "Storage",
+        "Repository"
+      ]
+    } 
+  }
+}

@@ -1,0 +1,73 @@
+trigger:
+- master
+
+variables:
+- group: bicep-dev
+- name : varstorageaccount
+  value: '$(baseName)$(modulestorage)'
+- name: varblobstorage
+  value: '$(baseName)blob$(modulestorage)'
+
+pool:
+  vmImage: 'ubuntu-latest'
+stages:
+- stage: CopyModules
+  jobs:
+  - job: 'CopyModules'
+    steps:
+      - task: BicepInstall@0
+        inputs:
+          version: '0.4.63'
+
+      - task: Bash@3
+        displayName: 'Bicep Build'
+        inputs:
+          targetType: inline
+          script: |
+            az bicep build --file $(System.DefaultWorkingDirectory)/deploy/modules.bicep
+
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo $(resourceGroupName)
+            echo '$(baseName)'
+            echo '$(modulesrs)'
+            echo '$(varstorageaccount)'
+            echo '$(varblobstorage)'
+            echo '$(needRedundancy)'
+            echo '$(georeplications)'
+
+      - task: AzureCLI@2
+        displayName: 'Deploy Infra'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            !/bin/bash
+            az --version
+            az group create --name $(modulesrs) --location $(location)
+            az deployment group create -f '$(System.DefaultWorkingDirectory)/deploy/modules.bicep' -g $(modulesrs) --mode Complete --parameters baseName=$(baseName) needRedundancy=$(needRedundancy) georeplications='$(georeplications)'
+
+
+
+
+
+
+
+
+
+
+
+
+      # - task: AzureCLI@2
+      #   displayName: 'Copy Files'
+      #   inputs:
+      #     azureSubscription: $(azureServiceConnection)
+      #     scriptType: bash
+      #     scriptLocation: inlineScript
+      #     inlineScript: |
+            
+      #       az storage blob upload-batch --account-name $(varstorageaccount) --account-key $(storageKey) -d $(varblobstorage) -s '$(System.DefaultWorkingDirectory)/modules' --t 'block'
+            

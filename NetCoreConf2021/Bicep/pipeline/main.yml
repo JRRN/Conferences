@@ -1,0 +1,43 @@
+trigger:
+- master
+
+variables:
+- group: bicep-dev
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: deployBicep
+  jobs:
+  - job: 'ConfigureBicep'
+    steps:
+      - task: BicepInstall@0
+        inputs:
+          version: '0.4.63'
+
+      - task: Bash@3
+        displayName: 'Bicep Build'
+        inputs:
+          targetType: inline
+          script: |
+            az bicep build --file $(System.DefaultWorkingDirectory)/demo/demo.bicep
+
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo $(resourceGroupName)
+            
+      - task: AzureCLI@2
+        displayName: 'Deploy Infra'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            !/bin/bash
+            az --version
+            az group create --name $(resourceGroupName) --location $(location)
+            az deployment group create -f '$(System.DefaultWorkingDirectory)/demo/demo.bicep' -g $(resourceGroupName) --mode Complete --parameters baseName=$(baseName) enviorment=$(enviorment) sqlPassword=$(sqlPassword) sqluser=$(sqluser) dbs='$(dbs)'
+

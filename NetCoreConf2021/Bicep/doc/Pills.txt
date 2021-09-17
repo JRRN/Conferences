@@ -1,0 +1,59 @@
+Pills
+
+Incremental
+az deployment group create -f ./main.bicep -g [resourceGroup]
+Recrear/Destruir
+az deployment group create -f ./main.bicep -g [resourceGroup] --mode Complete 
+
+az group export --name bicep > main.json
+
+https://www.thorsten-hans.com/bicep-and-terraform-compared/
+
+az group create --name Bicep --location westeurope  
+az deployment group create --resource-group Bicep --template-file main.bicep --parameters storageName=jrrn
+az group delete --resource-group Bicep
+
+az bicep --version
+
+@minLength(4)
+@description('Rafa esto es un storage')
+param baseName string = 'jrrn'
+
+resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+  name: baseName
+  location: resourceGroup().location
+  kind: 'StorageV2'
+  sku: {
+    name: 'Premium_LRS'
+  }
+}
+
+resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' ={
+  name: '${baseName}-sqlServer'
+  location: resourceGroup().location
+  properties:  {
+    administratorLogin: 'jrrn'
+    administratorLoginPassword: 'Patata01!'
+  }
+}
+
+resource sqlServerDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = {
+  parent: sqlServer
+  name: '${baseName}-Database'
+  location: resourceGroup().location
+}
+
+
+
+create TABLE bicep (
+    id int,
+    saludo VARCHAR(50)
+)
+
+insert into bicep (id, saludo) values (1, 'hola')
+
+
+Plan de ejecución:
+
+az group create --name Bicep --location westeurope 
+az deployment group what-if --resource-group Bicep --template-file main.bicep

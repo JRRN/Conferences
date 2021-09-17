@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.613.9944",
+      "templateHash": "5536670544516544514"
+    }
+  },
+  "parameters": {
+    "baseName": {
+      "type": "string",
+      "allowedValues": [
+        "uno",
+        "dos",
+        "tres"
+      ],
+      "maxLength": 10,
+      "minLength": 5,
+      "metadata": {
+        "description": "BaseNamePrefix"
+      }
+    }
+  },
+  "functions": [],
+  "resources": []
+}
