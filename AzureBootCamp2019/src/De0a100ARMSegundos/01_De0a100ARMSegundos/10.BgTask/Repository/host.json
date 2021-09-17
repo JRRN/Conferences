@@ -1,0 +1,18 @@
+{
+  "version": "2.0",
+  "functionTimeout": "00:09:50",
+  "aggregator": {
+    "batchSize": 1000,
+    "flushTimeout": "00:00:30"
+  },
+  "extensions": {
+    "serviceBus": {
+      "prefetchCount": 100,
+      "messageHandlerOptions": {
+        "autoComplete": false,
+        "maxConcurrentCalls": 30,
+        "maxAutoRenewDuration": "00:05:00"
+      }
+    }
+  }
+}

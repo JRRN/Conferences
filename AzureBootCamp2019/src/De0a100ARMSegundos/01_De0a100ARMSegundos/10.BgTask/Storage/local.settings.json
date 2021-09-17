@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "ServiceBusConnection": "Endpoint=sb://de0a100armsegundosservicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=9BGHyDPgDGesDDClW4LamGQ7OeoCsPfE0MG72/T/YBA=",
+    "BindingRedirects": "[ { \"ShortName\": \"Newtonsoft.Json\", \"RedirectToVersion\": \"11.0.0.0\", \"PublicKeyToken\": \"30ad4fe6b2a6aeed\" } ]",
+    "ConnectionStrings:DefaultConnection": "Server=tcp:de0a100armsegundossqlserver.database.windows.net,1433;Initial Catalog=de0a100armsecondsdb;User Id=admindb@de0a100armsegundossqlserver;Password=AdminPLain01!;",
+    "ConnectionStrings:StorageConnection": "DefaultEndpointsProtocol=https;AccountName=0a100armsegundosstorage;AccountKey=J0ZLP7zMjMyQ78UBwgmY4YpJ/7YZ5OB8G7GS2Haz3YTpgp2lXx3Nlcd/D3HYx7hfed6PvEzfkTeQHyehgckabA=="
+  }
+}
